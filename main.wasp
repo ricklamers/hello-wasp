@@ -55,6 +55,11 @@ action createTask {
   entities: [Task]
 }
 
+action removeTask {
+  fn: import { removeTask } from "@ext/actions.js",
+  entities: [Task]
+}
+
 action editTask {
   fn: import { editTask } from "@ext/actions.js",
   entities: [Task]

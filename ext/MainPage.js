@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import getTasks from "@wasp/queries/getTasks";
 import createTask from "@wasp/actions/createTask";
 import editTask from "@wasp/actions/editTask";
+import removeTask from "@wasp/actions/removeTask";
 import { useQuery } from "@wasp/queries";
 import logout from "@wasp/auth/logout.js";
 import Clocks from "./Clocks";
@@ -34,6 +35,18 @@ const changeTask = async (taskId, isDone) => {
   }
 };
 
+const removeTaskHandler = async (taskId) => {
+  if(window.confirm("Are you sure you want to remove this task?")) {
+    try {
+      await removeTask({ taskId });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+};
+
+
 const Task = (props) => (
   <div>
     <input
@@ -43,6 +56,7 @@ const Task = (props) => (
       onChange={changeTask.bind(this, props.task.id, props.task.isDone)}
     />
     {props.task.description}
+    <button onClick={removeTaskHandler.bind(this, props.task.id)}>💣</button>
   </div>
 );
 

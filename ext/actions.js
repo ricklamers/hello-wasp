@@ -25,3 +25,13 @@ export const editTask = async (args, context) => {
     },
   });
 };
+
+export const removeTask = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(403);
+  }
+
+  return context.entities.Task.deleteMany({
+    where: { id: args.taskId , user: { id: context.user.id }}
+  })
+};

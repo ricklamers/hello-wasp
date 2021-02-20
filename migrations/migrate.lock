@@ -1,0 +1,6 @@
+# Prisma Migrate lockfile v1
+
+20210220125124-added-task-entity
+20210220133843-added-user
+20210220134525-user-task-relation
+20210220134631-user-task-relation-forced

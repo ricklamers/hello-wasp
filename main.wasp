@@ -1,0 +1,61 @@
+app MyNewApp {
+  title: "MyNewApp"
+}
+
+route "/" -> page Main
+route "/signup" -> page Signup
+route "/login" -> page Login
+
+page Main {
+  authRequired: true,
+  component: import Main from "@ext/MainPage.js"
+}
+page Signup {
+    component: import Signup from "@ext/SignupPage"
+}
+page Login {
+    component: import Login from "@ext/LoginPage"
+}
+
+dependencies {=json
+  "react-clock": "3.0.0"
+json=}
+
+
+auth {
+  // Expects entity User to have (email:String) and (password:String) fields.
+  userEntity: User,
+  methods: [ EmailAndPassword ], // More methods coming soon!
+
+  onAuthFailedRedirectTo: "/login" // We'll see how this is used a bit later
+}
+
+entity Task {=psl
+  id  Int @id @default(autoincrement())
+  description String
+  isDone Boolean @default(false)
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+psl=}
+
+entity User {=psl
+    id          Int     @id @default(autoincrement())
+    email       String  @unique
+    password    String
+    tasks       Task[]
+psl=}
+
+query getTasks {
+  fn: import { getTasks } from "@ext/queries.js",
+  entities: [Task]
+}
+
+action createTask {
+  fn: import { createTask } from "@ext/actions.js",
+  entities: [Task]
+}
+
+action editTask {
+  fn: import { editTask } from "@ext/actions.js",
+  entities: [Task]
+}
